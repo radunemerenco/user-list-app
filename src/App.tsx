@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 import AddUserForm from './components/AddUserForm';
+import UserList from './components/UserList';
 import { getUsers } from './services/userService';
 import { User } from './types';
 
@@ -20,31 +21,12 @@ const App = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
-      <h1>User List</h1>
-      <AddUserForm />
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users?.map(user => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.phone}</td>
-              <td>
-                <button>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-3xl">
+        <h1 className="text-2xl font-bold mb-4">User Management</h1>
+        <AddUserForm />
+        {!!users && <UserList users={users} />}
+      </div>
     </div>
   );
 };
