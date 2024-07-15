@@ -1,5 +1,7 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 
+import { deleteUser } from '../services/userService';
 import { User } from '../types';
 
 interface UserListProps {
@@ -7,6 +9,19 @@ interface UserListProps {
 }
 
 const UserList: React.FC<UserListProps> = ({ users }) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    mutation.mutate(id);
+  };
+
   return (
     <div>
       <h2 className="text-xl font-semibold mb-4">Users</h2>
@@ -21,7 +36,10 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
               <p className="text-gray-600">{user.email}</p>
               <p className="text-gray-600">{user.phone}</p>
             </div>
-            <button className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+            <button
+              onClick={() => handleDelete(user.id!)}
+              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+            >
               Delete
             </button>
           </div>
