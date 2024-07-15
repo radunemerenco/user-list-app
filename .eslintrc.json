@@ -43,7 +43,6 @@
     ],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "import/newline-after-import": ["error", { "count": 1 }],
     "no-empty": ["error", { "allowEmptyCatch": true }],
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-argument": "off",
