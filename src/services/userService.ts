@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from '../constants';
 import { User } from '../types';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -28,12 +29,21 @@ export const deleteUser = async (userId: string): Promise<void> => {
   }
 };
 
-export const getUsers = async (): Promise<User[]> => {
-  const response = await fetch(`${API_BASE_URL}/users`);
+export const getUsers = async (
+  page: number,
+): Promise<{
+  results: User[];
+  previous?: { page: number; limit: number };
+  next?: { page: number; limit: number };
+  count: number;
+}> => {
+  const response = await fetch(
+    `${API_BASE_URL}/users?limit=${PAGE_SIZE}&page=${page}`,
+  );
 
   if (!response.ok) {
     throw new Error('Failed to fetch users');
   }
 
-  return (await response.json()) as User[];
+  return await response.json();
 };

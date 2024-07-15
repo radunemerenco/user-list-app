@@ -3,12 +3,21 @@ import React from 'react';
 
 import { deleteUser } from '../services/userService';
 import { User } from '../types';
+import Pagination from './Pagination';
 
 interface UserListProps {
   users: User[];
+  currentPage: number;
+  pageCount: number;
+  onPageChange: (page: number) => void;
 }
 
-const UserList: React.FC<UserListProps> = ({ users }) => {
+const UserList: React.FC<UserListProps> = ({
+  users,
+  currentPage,
+  pageCount,
+  onPageChange,
+}) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -45,6 +54,11 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
           </div>
         ))}
       </div>
+      <Pagination
+        currentPage={currentPage}
+        pageCount={pageCount}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 };
